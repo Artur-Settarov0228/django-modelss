@@ -23,8 +23,11 @@ def create_task(request: HttpRequest) -> HttpResponse:
 
 def task_list (request: HttpRequest) -> HttpResponse:
     tasks = Task.objects.all()
-    return render (request, 'list.html', {'tasks': tasks})
-
+    
+    context = {
+        'tasks': tasks
+    }
+    return render (request= request, context=context, template_name='list.html')
 
 
       

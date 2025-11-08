@@ -15,5 +15,8 @@ class Task(models.Model):
 
 
 
+    def __repr__(self):
+        return f'Task(id={self.id}, name="{self.name}")'
+
     def __str__(self):
-        return f"Task(id={self.id}),name={self.name}"
+        return f'Task(id={self.id}, name="{self.name}")'
