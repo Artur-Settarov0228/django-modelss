@@ -1,8 +1,8 @@
 import base64
 import json
 
-from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse, JsonResponse 
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpRequest, HttpResponse, JsonResponse,  
 from .models import Task
 
 
@@ -59,7 +59,33 @@ def get_user(requset:HttpRequest, slug: str) -> HttpResponse:
     requset = JsonResponse(data=data, safe=False, header={'Custom-Header': 'CustomValue'}, status=200)
     return requset
     
-    
+
+
+def create_user(request: HttpRequest) -> HttpResponse:
+    data = json.loads(request.body.decode())
+
+    user = User(
+        firist_name = data['first_name'],
+        last_name = data['last_name'],
+        email = data['email'],
+        age = data['age'],
+        tg_id = data['tg_id']
+    )
+    user.seve()
+
+    return HttpResponse({"message": "User created successfully"}, status=201)
+
+
+def get_user_by_id(request: HttpRequest, pk: int) -> HttpResponse:
+    user = get_object_or_404(User, pk=pk)
+
+    return JsonResponse({
+        'id': user.id,
+        'fullname': user.full_name,
+        'age': user.age,
+        'tg_id': user.tg_id
+    })
+
         
 
     
