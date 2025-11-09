@@ -1,5 +1,8 @@
+import base64
+import json
+
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse 
 from .models import Task
 
 
@@ -28,6 +31,52 @@ def task_list (request: HttpRequest) -> HttpResponse:
         'tasks': tasks
     }
     return render (request= request, context=context, template_name='list.html')
+
+
+def counter_view(request: HttpRequest) -> HttpResponse:
+
+    bady = request.body.decode()
+
+    data = json.loads(bady)
+    print(data['name'], data['age'])
+
+    return HttpResponse("Data received")
+
+
+def get_user(requset:HttpRequest, slug: str) -> HttpResponse:
+    text = "Hello, this is a, sample user data."
+    slug = sulgify(text)
+
+
+    data= [
+        {
+        "name": "John Doe",
+        "price" : 29.99,
+        "slug_name": "samsung-galaxy-s21",
+        "id" : 1
+        }
+    ]
+    requset = JsonResponse(data=data, safe=False, header={'Custom-Header': 'CustomValue'}, status=200)
+    return requset
+    
+    
+        
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       
